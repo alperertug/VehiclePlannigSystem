@@ -1,0 +1,68 @@
+﻿@using DataAccess.Identity.Data
+@using Microsoft.AspNetCore.Identity
+
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@*@model List<VehicleViewModel>*@
+@model IEnumerable<VehicleViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<section>
+    <h2 class="brand-text text-center">Vehicles</h2>
+    
+    <div class="row row-cols-1 row-cols-md-3 mb-2">
+        @foreach (var vehicle in Model)
+        {
+            <div class="row-5">
+            
+                <div class="card">
+                    <img src="@("~/image/" + vehicle.ImageName)" asp-append-version="true" width="100%" height="300px" />
+                    <div class="card-body text-center">
+                        <tr name="@vehicle.Id">
+                            <td>
+                                @vehicle.Plate
+                            </td>
+                            |
+                            <td>
+                                @vehicle.Model.BrandName
+                            </td>
+                            |
+                            <td>
+                                @vehicle.Model.ModelName
+                            </td>
+                            |
+                            <td>
+                                @vehicle.ProductionYear
+                            </td>
+                        </tr>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between align-items-center">
+                            
+                            <td>
+                                <small class="">Person Capacity: @vehicle.PersonCapacity | Load Limit(Liter): @vehicle.LoadLimit</small>
+                            </td>
+                            <div class="btn-group">
+
+                                <a asp-controller="Reservations" asp-action="CreateReservation" asp-route-id="@vehicle.Id" data="@vehicle">
+                                    <button type="button" class="btn btn-primary btn-outline-success" value="CreateReservation">Reserve</button>
+                                </a>
+                                @*<a asp-action="Create" asp-route-id="@vehicle.Id">Edit</a>*@
+                                @*<button type="button" class="btn btn-sm btn-outline-secondary">Details</button>*@
+                                @*asp-action="CreateReservation"*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+        }
+        
+    </div>   
+    
+</section>
+

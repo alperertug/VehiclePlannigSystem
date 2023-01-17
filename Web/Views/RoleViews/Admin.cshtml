@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Entities.Concrete.Brand>
+
+@{
+    ViewData["Title"] = "Admin Page";
+}
+
+<div class="row"
+    <div class="text-info">
+        <h1 class="display-4">Admin Page</h1>
+    </div>
+    <div class="align-content-center">
+    <ul class="nav nav-tabs">
+        @*<li class="nav-item">
+            <a class="nav-link" asp-controller="Brands" asp-action="Index">Brand</a>
+        </li>*@
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Cars" asp-action="Index">Vehicle</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Models" asp-action="Index">Model</a>
+        </li>        
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Colors" asp-action="Index">Color</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Maintenances" asp-action="Index">Maintenance</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="User" asp-action="Index">User Role Management</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="ReasonForReservations" asp-action="Index">Reason for Reservation</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Reservations" asp-action="Index">Reservation</a>
+        </li>
+    </ul>
+    </div>
+</div>

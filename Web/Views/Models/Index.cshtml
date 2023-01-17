@@ -1,0 +1,115 @@
+﻿@model IEnumerable<Entities.Concrete.Model>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Models</h1>
+
+<p>
+    <a asp-action="Create">
+        <button type="button" class="btn btn-primary btn-outline-success" value="Create">Create New</button>
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BrandName)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeletedBy)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeletedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrandName)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeletedBy)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeletedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>*@
+                <td>
+
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <button type="button" class="btn btn-primary btn-outline-success" value="Edit">Edit</button>
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <button type="button" class="btn btn-primary btn-outline-success" value="Details">Details</button>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        <button type="button" class="btn btn-primary btn-outline-success" value="Delete">Delete</button>
+                    </a>
+
+                </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@{
+    bool checkRole = false;
+}
+
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        <a asp-controller="RoleViews" asp-action="Admin">
+            <button type="button" class="btn btn-primary btn-outline-success" value="Admin">Back to the Admin Page</button>
+        </a>
+    </p>
+    checkRole = true;
+}
+@if (User.IsInRole("Manager") && checkRole == false)
+{
+    <p>
+        <a asp-controller="RoleViews" asp-action="Manager">
+            <button type="button" class="btn btn-primary btn-outline-success" value="Manager">Back to the Manager Page</button>
+        </a>
+    </p>
+}

@@ -12,10 +12,12 @@ namespace Entities.Concrete
     public class Maintenance : EntityBase
     {
         public int CarId { get; set; }
-        public string Title { get; set; }        
+        public string Title { get; set; }
+        [DataType(DataType.Date)]
         public DateTime LastMaintenanceTime { get; set; }
         public long LastMaintenanceMileage { get; set; }
         public string WorkDone { get; set; }
+        [DataType(DataType.Date)]
         public DateTime NextMaintenanceTime { get; set; }
         public long NextMaintenanceMileage { get; set; }
 

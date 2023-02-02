@@ -141,41 +141,71 @@ namespace AktifVehiclePlanningSystem.Controllers
 
             if (ModelState.IsValid)
             {
-                DeleteCustom(id);
-                try
+                if (carToUpdate.ImageFile != null)
                 {
-                    string wwwRootPath = _hostEnvironment.WebRootPath;
-                    string fileName = Path.GetFileNameWithoutExtension(carToUpdate.ImageFile.FileName);
-                    string extension = Path.GetExtension(carToUpdate.ImageFile.FileName);
-                    carToUpdate.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                    string path = Path.Combine(wwwRootPath + "/Image/", fileName);
-                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    DeleteCustom(id);
+                    try
                     {
-                        await carToUpdate.ImageFile.CopyToAsync(fileStream);
-                    }
+                        string wwwRootPath = _hostEnvironment.WebRootPath;
+                        string fileName = Path.GetFileNameWithoutExtension(carToUpdate.ImageFile.FileName);
+                        string extension = Path.GetExtension(carToUpdate.ImageFile.FileName);
+                        carToUpdate.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                        string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await carToUpdate.ImageFile.CopyToAsync(fileStream);
+                        }
 
-                    carInDb.Plate = carToUpdate.Plate;
-                    carInDb.ModelId = carToUpdate.ModelId;
-                    carInDb.ColorId = carToUpdate.ColorId;
-                    carInDb.ProductionYear = carToUpdate.ProductionYear;
-                    carInDb.PersonCapacity = carToUpdate.PersonCapacity;
-                    carInDb.LoadLimit = carToUpdate.LoadLimit;
-                    carInDb.Title = carToUpdate.Title;
-                    carInDb.ImageName = carToUpdate.ImageName;
-                    _context.Update(carInDb);
-                    await _context.SaveChangesAsync();
+                        carInDb.Plate = carToUpdate.Plate;
+                        carInDb.ModelId = carToUpdate.ModelId;
+                        carInDb.ColorId = carToUpdate.ColorId;
+                        carInDb.ProductionYear = carToUpdate.ProductionYear;
+                        carInDb.PersonCapacity = carToUpdate.PersonCapacity;
+                        carInDb.LoadLimit = carToUpdate.LoadLimit;
+                        carInDb.Title = carToUpdate.Title;
+                        carInDb.ImageName = carToUpdate.ImageName;
+                        _context.Update(carInDb);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!CarExists(carToUpdate.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!CarExists(carToUpdate.Id))
-                    {
-                        return NotFound();
+                    try
+                    {                        
+                        carInDb.Plate = carToUpdate.Plate;
+                        carInDb.ModelId = carToUpdate.ModelId;
+                        carInDb.ColorId = carToUpdate.ColorId;
+                        carInDb.ProductionYear = carToUpdate.ProductionYear;
+                        carInDb.PersonCapacity = carToUpdate.PersonCapacity;
+                        carInDb.LoadLimit = carToUpdate.LoadLimit;
+                        carInDb.Title = carToUpdate.Title;
+                        _context.Update(carInDb);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!CarExists(carToUpdate.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
                 }
+                
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ColorId"] = new SelectList(_context.Colors, "Id", "ColorName", carInDb.ColorId);

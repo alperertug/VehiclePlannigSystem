@@ -10,12 +10,15 @@
 
 @{
     ViewData["Title"] = "Home Page";
+    var vehicles = Model.ToList().OrderBy(x=>x.Model.ModelName);
+    var reservation = new Entities.Concrete.Reservation();
 }
-<section>
-    <h2 class="brand-text text-center">Vehicles</h2>
-    
+
+@*<h2 class="brand-text text-center">Vehicles</h2>*@
+
+<section>    
     <div class="row row-cols-1 row-cols-md-3 mb-2">
-        @foreach (var vehicle in Model)
+        @foreach (var vehicle in vehicles)
         {
             <div class="row-5">
             
@@ -46,10 +49,9 @@
                             <td>
                                 <small class="">Person Capacity: @vehicle.PersonCapacity | Load Limit(Liter): @vehicle.LoadLimit</small>
                             </td>
-                            <div class="btn-group">
-
-                                <a asp-controller="Reservations" asp-action="CreateReservation" asp-route-id="@vehicle.Id" data="@vehicle">
-                                    <button type="button" class="btn btn-primary btn-outline-success" value="CreateReservation">Reserve</button>
+                            <div class="btn-group">                                                                                                                            @*data="@vehicle"*@
+                                <a asp-controller="Reservations" asp-action="CreateReservation" asp-route-id="@vehicle.Id">
+                                    <button type="button" class="btn btn-primary btn-outline-success" value="CreateReservation">Reserve</button>                                    
                                 </a>
                                 @*<a asp-action="Create" asp-route-id="@vehicle.Id">Edit</a>*@
                                 @*<button type="button" class="btn btn-sm btn-outline-secondary">Details</button>*@

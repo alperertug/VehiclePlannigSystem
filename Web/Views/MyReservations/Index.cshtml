@@ -1,0 +1,100 @@
+﻿@using DataAccess.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims;
+
+@inject ApplicationDbContext _dbContext;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model Entities.Concrete.Reservation
+
+@{
+    ViewData["Title"] = "MyReservations";
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var myReservationList = _dbContext.Reservations.Where(r => r.UserId == userId).OrderBy(d => d.CreatedDate).ToList();
+}
+<h1 class="text-center">My Reservations</h1>
+<div class="container">
+    <main>
+        <div class="row row-cols-1 row-cols-md-3 mb-2">
+            @if (myReservationList.Count == 0)
+            {
+                <h1 class="text-center"></h1>
+                <div class="py-5 text-center">
+                    <h2>No reservation found!</h2>
+                </div>
+            }
+            else
+            {
+                @foreach (var reservation in myReservationList)
+                {
+                    <div class="row-5">
+                        <div class="card card-app-design">
+                            <div class="card-body">
+                                <span class="badge badge-light-primary">Creation Date: @reservation.CreatedDate.ToShortDateString()</span>
+                                <h4 class="card-title mt-1 mb-75 text-center">@_dbContext.Cars.FirstOrDefault(c => c.Id == reservation.CarId).Plate</h4>
+
+                                <p class="card-text font-small-2 mb-2">
+                                    <img src="@("~/image/" + reservation.Car.ImageName)" asp-append-version="true" width="100%" height="250px" />
+                                </p>
+
+                                <div class="design-group">
+                                    <h6 class="section-label">Reservation Reason</h6>
+                                    @if (@_dbContext.ReasonForReservations.FirstOrDefault(p => p.Id == reservation.ReasonForReservationId).Reason == "Emergency")
+                                    {
+                                        <span class="badge badge-light-danger me-1">Emergency</span>
+                                    }
+                                    else if (@reservation.ReasonForReservation.Reason == "Work")
+                                    {
+                                        <span class="badge badge-light-primary me-1">Work</span>
+                                    }
+                                    else if (@reservation.ReasonForReservation.Reason == "Travel")
+                                    {
+                                        <span class="badge badge-light-warning me-1">Travel</span>
+                                    }
+                                    else if (@reservation.ReasonForReservation.Reason == "Other")
+                                    {
+                                        <span class="badge badge-light-light me-1">Other</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-light-success me-1">@reservation.ReasonForReservation.Reason</span>
+                                    }
+                                </div>
+                                <div class="design-planning-wrapper justify-content-sm-center">
+                                    <div class="design-planning">
+                                        <p class="card-text mb-25">Reservation Date</p>
+                                        <h6 class="mb-0">@reservation.ReservationDate.ToShortDateString()</h6>
+                                    </div>
+                                    <div class="design-planning">
+                                        <p class="card-text mb-25">Delivery Time</p>
+                                        <h6 class="mb-0">@reservation.DeliveryTime.ToShortDateString()</h6>
+                                    </div>
+                                </div>
+
+                                @if (DateTime.Today <= reservation.DeliveryTime && reservation.ReservationDate <= DateTime.Today)
+                                {
+                                    <div class="d-grid">
+                                        <button type="button" class="btn btn-info">Early Delivery</button>
+                                    </div>
+                                }
+                                else if (reservation.ReservationDate > DateTime.Today)
+                                {
+                                    <div class="d-grid">
+                                        <button type="button" class="btn btn-danger">Cancel Reservation</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="d-grid">
+                                        <button type="button" class="btn btn-secondary" disabled="disabled">Done</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </main>
+</div>

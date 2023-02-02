@@ -105,8 +105,8 @@ namespace AktifVehiclePlanningSystem.Controllers
             user.Email = data.User.Email;
 
             _unitOfWork.User.UpdateUser(user);
-
-            return RedirectToAction("Edit", new { id = user.Id });
+            //return RedirectToAction("Edit", new { id = user.Id });
+            return RedirectToAction("Index", "User");
         }
     }
 }

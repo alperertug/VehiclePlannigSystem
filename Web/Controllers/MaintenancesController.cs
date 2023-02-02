@@ -48,7 +48,7 @@ namespace AktifVehiclePlanningSystem.Controllers
         public IActionResult Create()
         {
             ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Plate");
-            return View();
+            return View(new Maintenance { LastMaintenanceTime = DateTime.Today, NextMaintenanceTime = DateTime.Now.AddYears(1)});
         }
 
         // POST: Maintenances/Create

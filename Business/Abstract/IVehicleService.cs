@@ -7,6 +7,7 @@ namespace Business.Abstract
     {
         Task<List<VehicleViewModel>> GetAllVehiclesWithModelNonDeletedAsync();
         Task<List<Car>> GetAllCarsAsync();
+        Car GetVehicle(int id);
         Task<VehicleViewModel> GetVehicleByIdAsync(int id);
     }
 }

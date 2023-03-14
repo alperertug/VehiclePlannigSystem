@@ -4,102 +4,123 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1 class="center">Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3 class="center">Are you sure you want to delete this?</h3>
+<hr />
+
 <div>
-    <h4>Maintenance</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastMaintenanceTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastMaintenanceTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastMaintenanceMileage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastMaintenanceMileage)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkDone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.WorkDone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NextMaintenanceTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NextMaintenanceTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NextMaintenanceMileage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NextMaintenanceMileage)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Car)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Car.Plate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ModifiedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ModifiedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    <div class="container center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-sm table-striped" cellspacing="0" width="100%">
+                                <thead>
+                                    <h4 class="text-center">Details</h4>
+                                    <hr />
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="col-sm-6">
+                                            Title
+                                        </td>
+                                        <td class="col-sm-6">
+                                            @Html.DisplayFor(model => model.Title)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-6">
+                                            Vehicle Plate
+                                        </td>
+                                        <td class="col-sm-6">
+                                            @Html.DisplayFor(model => model.Car.Plate)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-6">
+                                            Last Maintenance Time
+                                        </td>
+                                        <td class="col-sm-6">
+                                            @Html.DisplayFor(model => model.LastMaintenanceTime)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-6">
+                                            Last Maintenance Mileage
+                                        </td>
+                                        <td class="col-sm-6">
+                                            @Html.DisplayFor(model => model.LastMaintenanceMileage)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-6">
+                                            Work Done
+                                        </td>
+                                        <td class="col-sm-6">
+                                            @Html.DisplayFor(model => model.WorkDone)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-6">
+                                            Next Maintenance Time
+                                        </td>
+                                        <td class="col-sm-6">
+                                            @Html.DisplayFor(model => model.NextMaintenanceTime)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-6">
+                                            Next Maintenance Mileage
+                                        </td>
+                                        <td class="col-sm-6">
+                                            @Html.DisplayFor(model => model.NextMaintenanceMileage)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-6">
+                                            Created Date
+                                        </td>
+                                        <td class="col-sm-6">
+                                            @Html.DisplayFor(model => model.CreatedDate)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-6">
+                                            Is Deleted
+                                        </td>
+                                        <td class="col-sm-6">
+                                            @Html.DisplayFor(model => model.IsDeleted)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br />
+                            <form asp-action="Delete">
+                                <div class="btn-group center" role="group">
+                                    <input type="hidden" asp-for="Id" />
+                                    <input type="submit" value="Delete" class="btn btn-gradient-danger" />
+                                    <a asp-action="Index" class="btn btn-gradient-secondary">Back</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .right {
+        display: flex;
+        justify-content: right;
+        align-items: right;
+    }
+</style>

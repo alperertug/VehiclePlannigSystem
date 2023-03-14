@@ -4,71 +4,110 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class="center">Edit</h1>
 
-<h4>Car</h4>
+<h4 class="center">Vehicle</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Plate" class="control-label"></label>
-                <input asp-for="Plate" class="form-control" />
-                <span asp-validation-for="Plate" class="text-danger"></span>
+<div class="container center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form asp-action="Edit" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="control-label">Brand --> Model</label>
+                                    <select asp-for="ModelId" class="form-control" asp-items="ViewBag.ModelId"></select>
+                                    <span asp-validation-for="ModelId" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label">Color</label>
+                                    <select asp-for="ColorId" class="form-control" asp-items="ViewBag.ColorId"></select>
+                                    <span asp-validation-for="ColorId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="control-label">Plate</label>
+                                    <input asp-for="Plate" class="form-control" />
+                                    <span asp-validation-for="Plate" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label">Model Year</label>
+                                    <input asp-for="ProductionYear" class="form-control" />
+                                    <span asp-validation-for="ProductionYear" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">                                
+                                <div class="col-sm-6">
+                                    <label class="control-label">Person Capacity</label>
+                                    <input asp-for="PersonCapacity" class="form-control" />
+                                    <span asp-validation-for="PersonCapacity" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label">Load Limit</label>
+                                    <input asp-for="LoadLimit" class="form-control" />
+                                    <span asp-validation-for="LoadLimit" class="text-danger"></span>
+                    </div>
+                            </div>
+                            <br />
+                            <div class="row">                                
+                                <div class="col-sm-6">
+                                    <label class="control-label">Title</label>
+                                    <input asp-for="Title" class="form-control" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label asp-for="ImageFile" class="control-label"></label>
+                                    <input asp-for="ImageFile" class="form-control" accept="image/*" />
+                                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="col-sm-6 form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="IsDeleted" /> Mark as deleted
+                                </label>
+                            </div>
+                            <br />
+                            <input type="hidden" asp-for="Id" />
+                            <div class="btn-group center" role="group">
+                                <button type="submit" value="Save" class="btn btn-gradient-primary">
+                                    Save
+                                </button>
+                                <button asp-action="Index" type="submit" value="Back" class="btn btn-gradient-secondary">
+                                    Back
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ModelId" class="control-label"></label>
-                <select asp-for="ModelId" class="form-control" asp-items="ViewBag.ModelId"></select>
-                <span asp-validation-for="ModelId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ColorId" class="control-label"></label>
-                <select asp-for="ColorId" class="form-control" asp-items="ViewBag.ColorId"></select>
-                <span asp-validation-for="ColorId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductionYear" class="control-label"></label>
-                <input asp-for="ProductionYear" class="form-control" />
-                <span asp-validation-for="ProductionYear" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PersonCapacity" class="control-label"></label>
-                <input asp-for="PersonCapacity" class="form-control" />
-                <span asp-validation-for="PersonCapacity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LoadLimit" class="control-label"></label>
-                <input asp-for="LoadLimit" class="form-control" />
-                <span asp-validation-for="LoadLimit" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" accept="image/*" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>
-            <input type="hidden" asp-for="Id" />            
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .right {
+        display: flex;
+        justify-content: right;
+        align-items: right;
+    }
+</style>

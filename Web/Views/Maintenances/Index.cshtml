@@ -1,45 +1,50 @@
 ﻿@model IEnumerable<Entities.Concrete.Maintenance>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Maintenances";
 }
 
 <h1 class="text-center">Maintenances</h1>
 
-<p>
-    <a asp-action="Create">
-        <button type="button" class="btn btn-primary btn-outline-success" value="Create">Create New</button>
-    </a>
-</p>
+<hr />
+<div class="right">
+    <p>
+        <a asp-action="Create">
+            <button type="button" class="btn btn-gradient-primary" value="Create">
+                <i data-feather="plus" class="me-25"></i>
+                <span>Create New</span>
+            </button>
+        </a>
+        <a asp-controller="Home" asp-action="Index">
+            <button type="button" class="btn btn-gradient-secondary" value="Admin">
+                <i data-feather="home" class="me-25"></i>
+                <span>Back to Home</span>
+            </button>
+        </a>
+    </p>
+</div>
 <div class="text-center">
-    <table class="table table-sm">
+    <table class="table table-sm table-striped" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Title)
+                    Title
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Car.Plate)
+                    Plate
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Car.ImageFile)
+                    Image
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LastMaintenanceTime)
-                </th>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.LastMaintenanceMileage)
-                </th>*@
-                <th>
-                    @Html.DisplayNameFor(model => model.WorkDone)
+                    Last M. Time
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.NextMaintenanceTime)
+                    Work Done
                 </th>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.NextMaintenanceMileage)
-                </th>*@
-                
+                <th>
+                    Next M. Time
+                </th>                
                 <th>Actions</th>
             </tr>
         </thead>
@@ -48,10 +53,10 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Title)
+                        @item.Title
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Car.Plate)
+                        @item.Car.Plate
                     </td>
                     <td>
                         <img src="@("~/image/" + item.Car.ImageName)" asp-append-version="true" width="150px" height="100px" />
@@ -59,37 +64,28 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.LastMaintenanceTime)
                     </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.LastMaintenanceMileage)
-                    </td>*@
                     <td>
-                        @Html.DisplayFor(modelItem => item.WorkDone)
+                        @item.WorkDone
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.NextMaintenanceTime)
                     </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.NextMaintenanceMileage)
-                    </td>*@
-                    
                     <td>
-
                         <a asp-action="Edit" asp-route-id="@item.Id">
-                            <button type="button" class="btn btn-primary btn-outline-success" value="Edit">
+                            <button type="button" class="btn btn-outline-primary btn-md" value="Edit">
                                 <i data-feather="edit"></i>
                             </button>
                         </a>
                         <a asp-action="Details" asp-route-id="@item.Id">
-                            <button type="button" class="btn btn-primary btn-outline-success" value="Details">
+                            <button type="button" class="btn btn-outline-info btn-md" value="Details">
                                 <i data-feather="info"></i>
                             </button>
                         </a>
                         <a asp-action="Delete" asp-route-id="@item.Id">
-                            <button type="button" class="btn btn-primary btn-outline-success" value="Delete">
+                            <button type="button" class="btn btn-outline-danger btn-md" value="Delete">
                                 <i data-feather="trash"></i>
                             </button>
                         </a>
-
                     </td>
                 </tr>
             }
@@ -97,10 +93,16 @@
     </table>
 </div>
 
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-<p>
-    <a asp-controller="Home" asp-action="Index">
-        <button type="button" class="btn btn-primary btn-outline-success" value="Admin">Back to Home</button>
-    </a>
-</p>
-
+    .right {
+        display: flex;
+        justify-content: right;
+        align-items: right;
+    }
+</style>

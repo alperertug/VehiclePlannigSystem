@@ -1,47 +1,49 @@
-﻿@using DataAccess.Identity.Data
+﻿@using Business.Abstract;
+@using DataAccess.Identity.Data
 
-@inject ApplicationDbContext _dbcontext
+@inject IUserService _userService
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    ViewData["Title"] = "Users Page";
-    string UserRole(ApplicationUser user)
-    {        
-        var roleIds = _dbcontext.UserRoles.Where(f => f.UserId == user.Id).ToList();        
-        var roleNames = new List<string>();
-        foreach (var role in roleIds)
-        {
-            roleNames.Add(_dbcontext.Roles.FirstOrDefault(x => x.Id == role.RoleId).Name);
-        }
-
-        var roleStr = "";
-        foreach (var roleName in roleNames)
-        {
-            roleStr += roleName.ToString() + ", ";
-        }
-
-
-        return roleStr.Remove((roleStr.Length - 2), 2);
-    }
+    ViewData["Title"] = "Users Roles";
 }
 
 @model ICollection<ApplicationUser>
 
 
-<h1 class="text-center">User List</h1>
+<h1 class="text-center">User Roles List</h1>
+<div class="right">
+    <p>
+        <a asp-action="Create">
+            <button type="button" class="btn btn-gradient-primary" value="Create">
+                <i data-feather="plus" class="me-25"></i>
+                <span>Create User</span>
+            </button>
+        </a>
+        <a asp-controller="Home" asp-action="Index">
+            <button type="button" class="btn btn-gradient-secondary" value="Admin">
+                <i data-feather="home" class="me-25"></i>
+                <span>Back to Home</span>
+            </button>
+        </a>
+    </p>
+</div>
 <div class="text-center">
     @if(@Model != null && @Model.Any()){
-        <table class="table">
+        <table class="table table-sm table-striped" cellspacing="0" width="100%">
             <thead>
                 <tr>
                     @*<th scope="col">#</th>*@
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
+                    <th scope="col">User Name</th>
                     <th scope="col">E-Mail</th>
+                    <th scope="col">Email Confirmed</th>
+                    <th scope="col">Phone</th>
                     <th scope="col">Roles</th>
-                    <th scope="col">Edit</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,11 +53,21 @@
                         @*<th scope="row">@user.Id</th>*@
                         <td>@user.FirstName</td>
                         <td>@user.LastName</td>
+                        <td>@user.UserName</td>
                         <td>@user.Email</td>
-                        <td>@UserRole(user)</td>                       
+                        <td>@user.EmailConfirmed</td>
+                        <td>@user.PhoneNumber</td>
+                        <td>@_userService.RolePrinter(user)</td>
                         <td>
                             <a asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">
-                                <button type="button" class="btn btn-primary btn-outline-success" value="Edit">Edit</button>
+                                <button type="button" class="btn btn-outline-primary btn-sm" value="Edit">
+                                    <i data-feather="edit"></i>
+                                </button>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@user.Id">
+                                <button type="button" class="btn btn-outline-danger btn-sm" value="Delete">
+                                    <i data-feather="trash"></i>
+                                </button>
                             </a>
                         </td>
                     </tr>
@@ -65,15 +77,18 @@
     }
 </div>
 
-<div class="text-center">
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-</div>
-
-<p>
-    <a asp-controller="Home" asp-action="Index">
-        <button type="button" class="btn btn-primary btn-outline-success" value="Admin">Back to Home</button>
-    </a>
-</p>
-
+    .right {
+        display: flex;
+        justify-content: right;
+        align-items: right;
+    }
+</style>
 
 

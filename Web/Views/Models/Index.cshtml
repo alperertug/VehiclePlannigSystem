@@ -1,47 +1,40 @@
 ﻿@model IEnumerable<Entities.Concrete.Model>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Models";
 }
 
 <h1 class="text-center">Models</h1>
 
-<p>
-    <a asp-action="Create">
-        <button type="button" class="btn btn-primary btn-outline-success" value="Create">Create New</button>
-    </a>
-</p>
+<div class="right">
+    <p>
+        <a asp-action="Create">
+            <button type="button" class="btn btn-gradient-primary" value="Create">
+                <i data-feather="plus" class="me-25"></i>
+                <span>Create New</span>
+            </button>
+        </a>
+        <a asp-controller="Home" asp-action="Index">
+            <button type="button" class="btn btn-gradient-secondary" value="Admin">
+                <i data-feather="home" class="me-25"></i>
+                <span>Back to Home</span>
+            </button>
+        </a>
+    </p>
+</div>
 <div class="text-center">
-    <table class="table table-sm">
+    <table class="table table-sm table-striped" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.ModelName)
+                    Model Name
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.BrandName)
-                </th>
-                @*<th>
-                @Html.DisplayNameFor(model => model.CreatedBy)
+                    Brand Name
                 </th>
                 <th>
-                @Html.DisplayNameFor(model => model.ModifiedBy)
+                    Created Date
                 </th>
-                <th>
-                @Html.DisplayNameFor(model => model.DeletedBy)
-                </th>*@
-                <th>
-                    @Html.DisplayNameFor(model => model.CreatedDate)
-                </th>
-                @*<th>
-                @Html.DisplayNameFor(model => model.ModifiedDate)
-                </th>
-                <th>
-                @Html.DisplayNameFor(model => model.DeletedDate)
-                </th>
-                <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-                </th>*@
                 <th>Actions</th>
             </tr>
         </thead>
@@ -50,50 +43,30 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ModelName)
+                        @item.ModelName
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.BrandName)
+                        @item.BrandName
                     </td>
-                    @*<td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.ModifiedBy)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.DeletedBy)
-                </td>*@
                     <td>
-                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                        @item.CreatedDate
                     </td>
-                    @*<td>
-                @Html.DisplayFor(modelItem => item.ModifiedDate)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.DeletedDate)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-                </td>*@
                     <td>
-
                         <a asp-action="Edit" asp-route-id="@item.Id">
-                            <button type="button" class="btn btn-primary btn-outline-success" value="Edit">
+                            <button type="button" class="btn btn-outline-primary btn-md" value="Edit">
                                 <i data-feather="edit"></i>
                             </button>
                         </a>
                         <a asp-action="Details" asp-route-id="@item.Id">
-                            <button type="button" class="btn btn-primary btn-outline-success" value="Details">
+                            <button type="button" class="btn btn-outline-info btn-md" value="Details">
                                 <i data-feather="info"></i>
                             </button>
                         </a>
                         <a asp-action="Delete" asp-route-id="@item.Id">
-                            <button type="button" class="btn btn-primary btn-outline-success" value="Delete">
+                            <button type="button" class="btn btn-outline-danger btn-md" value="Delete">
                                 <i data-feather="trash"></i>
                             </button>
                         </a>
-
                     </td>
                 </tr>
             }
@@ -102,31 +75,23 @@
 </div>
 
 
-@*@{
-    bool checkRole = false;
-}
-
-@if (User.IsInRole("Administrator"))
-{
-    <p>
-        <a asp-controller="RoleViews" asp-action="Admin">
-            <button type="button" class="btn btn-primary btn-outline-success" value="Admin">Back to the Admin Page</button>
-        </a>
-    </p>
-    checkRole = true;
-}
-@if (User.IsInRole("Manager") && checkRole == false)
-{
-    <p>
-        <a asp-controller="RoleViews" asp-action="Manager">
-            <button type="button" class="btn btn-primary btn-outline-success" value="Manager">Back to the Manager Page</button>
-        </a>
-    </p>
-}*@
-
 <p>
     <a asp-controller="Home" asp-action="Index">
         <button type="button" class="btn btn-primary btn-outline-success" value="Admin">Back to Home</button>
     </a>
 </p>
 
+
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .right {
+        display: flex;
+        justify-content: right;
+        align-items: right;
+    }
+</style>

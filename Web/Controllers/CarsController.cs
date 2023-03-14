@@ -163,6 +163,7 @@ namespace AktifVehiclePlanningSystem.Controllers
                         carInDb.PersonCapacity = carToUpdate.PersonCapacity;
                         carInDb.LoadLimit = carToUpdate.LoadLimit;
                         carInDb.Title = carToUpdate.Title;
+                        carInDb.IsDeleted= carToUpdate.IsDeleted;
                         carInDb.ImageName = carToUpdate.ImageName;
                         _context.Update(carInDb);
                         await _context.SaveChangesAsync();
@@ -190,6 +191,7 @@ namespace AktifVehiclePlanningSystem.Controllers
                         carInDb.PersonCapacity = carToUpdate.PersonCapacity;
                         carInDb.LoadLimit = carToUpdate.LoadLimit;
                         carInDb.Title = carToUpdate.Title;
+                        carInDb.IsDeleted= carToUpdate.IsDeleted;
                         _context.Update(carInDb);
                         await _context.SaveChangesAsync();
                     }

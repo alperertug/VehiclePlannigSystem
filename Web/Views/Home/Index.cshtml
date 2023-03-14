@@ -1,70 +1,156 @@
-﻿@using DataAccess.Identity.Data
+﻿@using Business.Abstract;
+@using DataAccess.Identity.Data
 @using Microsoft.AspNetCore.Identity
+@using System.Security.Claims;
 
 
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@inject IUserService _userService
+@inject IModelService _modelService
+@inject IMaintenanceService _maintenanceService
+@inject IReservationService _reservationService
 
-@*@model List<VehicleViewModel>*@
 @model IEnumerable<VehicleViewModel>
 
 @{
     ViewData["Title"] = "Home Page";
-    var vehicles = Model.ToList().OrderBy(x=>x.Model.ModelName);
-    var reservation = new Entities.Concrete.Reservation();
+    var vehicles = Model.ToList().OrderBy(x=>x.Plate);
+    var reservationList = _reservationService.GetAllCustom();
+    var totalManagers = _userService.TotalManagers();
+    var totalUsers = _userService.TotalUsers();
+    var totalModels = _modelService.GetAllModels().Count;
+    var totalMaintenances = _maintenanceService.GetMaintenances().Count;
 }
 
 @*<h2 class="brand-text text-center">Vehicles</h2>*@
+
+@if (User.IsInRole("Administrator"))
+{
+    <div class="row">
+    <div class="col-xl-2 col-md-4 col-sm-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="avatar bg-light-secondary p-50 mb-1">
+                    <div class="avatar-content">
+                        <i data-feather="aperture" class="font-medium-5"></i>
+                    </div>
+                </div>
+                <h2 class="fw-bolder">@totalModels</h2>
+                <p class="card-text">Vehicle Models</p>
+            </div>
+        </div>
+    </div> 
+    <div class="col-xl-2 col-md-4 col-sm-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="avatar bg-light-info p-50 mb-1">
+                    <div class="avatar-content">
+                        <i data-feather="activity" class="font-medium-5"></i>
+                    </div>
+                </div>
+                <h2 class="fw-bolder">@totalMaintenances</h2>
+                <p class="card-text">Maintenances</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-md-4 col-sm-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="avatar bg-light-danger p-50 mb-1">
+                    <div class="avatar-content">
+                        <i data-feather="truck" class="font-medium-5"></i>
+                    </div>
+                </div>
+                <h2 class="fw-bolder">@vehicles.Count()</h2>
+                <p class="card-text">Vehicles</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-md-4 col-sm-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="avatar bg-light-primary p-50 mb-1">
+                    <div class="avatar-content">
+                        <i data-feather="calendar" class="font-medium-5"></i>
+                    </div>
+                </div>
+                <h2 class="fw-bolder">@reservationList.Count</h2>
+                <p class="card-text">Reservations</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-md-4 col-sm-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="avatar bg-light-success p-50 mb-1">
+                    <div class="avatar-content">
+                        <i data-feather="user-check" class="font-medium-5"></i>
+                    </div>
+                </div>
+                <h2 class="fw-bolder">@totalManagers</h2>
+                <p class="card-text">Managers</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-md-4 col-sm-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="avatar bg-light-warning p-50 mb-1">
+                    <div class="avatar-content">
+                        <i data-feather="users" class="font-medium-5"></i>
+                    </div>
+                </div>
+                <h2 class="fw-bolder">@totalUsers</h2>
+                <p class="card-text">Users</p>
+            </div>
+        </div>
+    </div>    
+</div>
+}
 
 <section>    
     <div class="row row-cols-1 row-cols-md-3 mb-2">
         @foreach (var vehicle in vehicles)
         {
             <div class="row-5">
-            
-                <div class="card">
-                    <img src="@("~/image/" + vehicle.ImageName)" asp-append-version="true" width="100%" height="300px" />
-                    <div class="card-body text-center">
-                        <tr name="@vehicle.Id">
-                            <td>
-                                @vehicle.Plate
-                            </td>
-                            |
-                            <td>
-                                @vehicle.Model.BrandName
-                            </td>
-                            |
-                            <td>
-                                @vehicle.Model.ModelName
-                            </td>
-                            |
-                            <td>
-                                @vehicle.ProductionYear
-                            </td>
-                        </tr>
-                    </div>
-                    <div class="card-footer">
-                        <div class="d-flex justify-content-between align-items-center">
+                <div class="card card-app-design">
+                    <span class="badge badge-light-info">Number of Reservations: @_reservationService.GetReservationsByVehicleId(vehicle.Id).Count</span>
+                    <div class="card-body">
+                        <div class="center"><img src="@("~/image/" + vehicle.ImageName)" asp-append-version="true" width="285px" height="200px" /></div>
+                        
+                        <div class="design-planning-wrapper justify-content-sm-center">
+                            <div class="design-planning">
+                                @*<p class="card-text mb-25">Details</p>*@
+                                <td class="mb-0">@vehicle.Plate</td>
+                                |
+                                <td class="mb-0">@vehicle.Model.BrandName</td>
+                                |
+                                <td class="mb-0">@vehicle.Model.ModelName</td>
+                                |
+                                <td class="mb-0">@vehicle.ProductionYear</td>
+                            </div>
                             
-                            <td>
-                                <small class="">Person Capacity: @vehicle.PersonCapacity | Load Limit(Liter): @vehicle.LoadLimit</small>
-                            </td>
-                            <div class="btn-group">                                                                                                                            @*data="@vehicle"*@
-                                <a asp-controller="Reservations" asp-action="CreateReservation" asp-route-id="@vehicle.Id">
-                                    <button type="button" class="btn btn-primary btn-outline-success" value="CreateReservation">Reserve</button>                                    
-                                </a>
-                                @*<a asp-action="Create" asp-route-id="@vehicle.Id">Edit</a>*@
-                                @*<button type="button" class="btn btn-sm btn-outline-secondary">Details</button>*@
-                                @*asp-action="CreateReservation"*@
+                        </div>
+                        <div class="card-footer center">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge badge-light-secondary">Person Capacity: @vehicle.PersonCapacity | Load Limit (Liter): @vehicle.LoadLimit</span>
                             </div>
                         </div>
-                    </div>
+                        <div class="btn-group center">
+                            <a asp-controller="Reservations" asp-action="CreateReservation" asp-route-id="@vehicle.Id">
+                                <button type="button" class="btn btn-gradient-primary btn-outline-info" value="CreateReservation">Reserve</button>
+                            </a>
+                        </div>
+                    </div>                    
                 </div>
-            
             </div>
         }
-        
-    </div>   
-    
+    </div>
 </section>
 
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }    
+</style>

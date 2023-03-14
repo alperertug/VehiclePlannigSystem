@@ -1,0 +1,95 @@
+﻿@using DataAccess.Identity.Data;
+@model ApplicationUser
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="center">Create</h1>
+
+<h4 class="center">User</h4>
+<hr />
+
+<div class="container center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="control-label">First Name</label>
+                                    <input asp-for="FirstName" class="form-control" />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label">Last Name</label>
+                                    <input asp-for="LastName" class="form-control" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="control-label">User Name</label>
+                                    <input asp-for="UserName" class="form-control" />
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="control-label">Email</label>
+                                    <input asp-for="Email" class="form-control" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <br />
+                            @*<div class="row">
+                                <div class="col-sm-6">
+                                    <input asp-for="PasswordHash" class="form-control" autocomplete="new-password" aria-required="true" />
+                                    <label asp-for=""></label>
+                                    <span asp-validation-for="" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input asp-for="" class="form-control" autocomplete="new-password" aria-required="true" />
+                                    <label asp-for=""></label>
+                                    <span asp-validation-for="" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <br />*@
+                            <div class="btn-group center" role="group">
+                                <button type="submit" value="Create" class="btn btn-gradient-primary">
+                                    Create
+                                </button>
+                                <button asp-action="Index" type="submit" value="Back" class="btn btn-gradient-secondary">
+                                    Back
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .right {
+        display: flex;
+        justify-content: right;
+        align-items: right;
+    }
+</style>

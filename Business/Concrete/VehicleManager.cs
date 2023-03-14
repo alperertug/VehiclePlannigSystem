@@ -42,5 +42,10 @@ namespace Business.Concrete
 
             return map;
         }
+
+        public Car GetVehicle(int id)
+        {
+            return _unitOfWork.GetDbContext().Cars.FirstOrDefault(i => i.Id == id);
+        }
     }
 }

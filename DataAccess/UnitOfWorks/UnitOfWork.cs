@@ -18,7 +18,10 @@ namespace DataAccess.UnitOfWorks
         {
             _dbContext = dbContext;
         }
-
+        public ApplicationDbContext GetDbContext()
+        {
+            return _dbContext;
+        }
         public async ValueTask DisposeAsync()
         {
             await _dbContext.DisposeAsync();

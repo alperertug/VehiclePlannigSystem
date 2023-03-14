@@ -4,63 +4,77 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1 class="center">Details</h1>
 
 <div>
-    <h4>ReasonForReservation</h4>
+    <h4 class="center">Reason</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Reason)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Reason)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ModifiedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ModifiedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-    </dl>
+    <div class="container center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-sm table-striped" cellspacing="0" width="100%">
+                                <thead>
+                                    <h4 class="text-center">Details Card</h4>
+                                    <hr />
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="col-sm-4">
+                                            Color Name
+                                        </td>
+                                        <td class="col-sm-6">
+                                            @Html.DisplayFor(model => model.Reason)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-4">
+                                            Created Date
+                                        </td>
+                                        <td class="col-sm-6">
+                                            @Html.DisplayFor(model => model.CreatedDate)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-4">
+                                            Is Deleted
+                                        </td>
+                                        <td class="col-sm-6">
+                                            @Html.DisplayFor(model => model.IsDeleted)
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br />
+                            <form>
+                                <div class="btn-group center" role="group">
+                                    <button asp-action="Edit" asp-route-id="@Model?.Id" type="submit" class="btn btn-gradient-primary">
+                                        Edit
+                                    </button>
+                                    <button asp-action="Index" type="submit" value="Back" class="btn btn-gradient-secondary">
+                                        Back
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .right {
+        display: flex;
+        justify-content: right;
+        align-items: right;
+    }
+</style>

@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Cancel Reservation";
+}
+
+<body class="center">
+    <div class="container text-center align-self-center">
+        <br />
+        <br />     
+        <div class="container text-center align-self-center text-center center">
+            <div class="alert alert-danger col-md-4 text-center" role="alert">
+                <h4 class="alert-heading">Success</h4>
+                <div class="alert-body text-center">
+                    Reservation cancelled!
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+        <div class="container text-center align-self-center">
+        <a asp-action="Index">
+            <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-primary">Back to My Reservations</button>
+            </div>
+        </a>
+        </div>
+</body>
+
+
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>

@@ -20,12 +20,14 @@ namespace AktifVehiclePlanningSystem.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IVehicleService _vehicleService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IReservationService _reservationService;
 
-        public ReservationsController(ApplicationDbContext context, IVehicleService vehicleService, UserManager<ApplicationUser> userManager)
+        public ReservationsController(ApplicationDbContext context, IVehicleService vehicleService, UserManager<ApplicationUser> userManager, IReservationService reservationService)
         {
             _context = context;
             _vehicleService = vehicleService;
             _userManager = userManager;
+            _reservationService = reservationService;
         }
 
         // GET: Reservations
@@ -37,7 +39,14 @@ namespace AktifVehiclePlanningSystem.Controllers
             foreach (var reservation in applicationDbContext)
             {
                 var lastValue = userList.FirstOrDefault(c => c.Id == reservation.UserId);
-                reservation.UserId = lastValue.UserName;
+                if (lastValue == null)
+                {
+                    reservation.UserId = "This user removed from the db.";
+                }
+                else
+                {
+                    reservation.UserId = lastValue.UserName;
+                }
             }
             return View(await applicationDbContext.ToListAsync());
         }
@@ -102,6 +111,7 @@ namespace AktifVehiclePlanningSystem.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName").OrderBy(u => u.Text);
             ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Plate", reservation.CarId);
             ViewData["ReasonForReservationId"] = new SelectList(_context.ReasonForReservations, "Id", "Reason", reservation.ReasonForReservationId);
             return View(reservation);
@@ -139,6 +149,7 @@ namespace AktifVehiclePlanningSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName").OrderBy(u => u.Text);
             ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Plate", reservation.CarId);
             ViewData["ReasonForReservationId"] = new SelectList(_context.ReasonForReservations, "Id", "Reason", reservation.ReasonForReservationId);
             return View(reservation);
@@ -216,76 +227,23 @@ namespace AktifVehiclePlanningSystem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateReservation([Bind(include: "UserId, CarId, ReservationDate, DeliveryTime, ReasonForReservationId, CreatedBy, ModifiedBy, DeletedBy, CreatedDate, ModifiedDate, DeletedDate, IsDeleted")] Reservation reservation)
-        {
-            var reservationList = _context.Reservations.ToList();
-            foreach (var reserv in reservationList)
+        {            
+            if (ModelState.IsValid)
             {
-                //if (reservation.CarId == reserv.CarId)
-                //{
-                    //if (reservation.ReservationDate <= reserv.DeliveryTime && reserv.ReservationDate < reservation.DeliveryTime)
-                    //{
-                    //    return RedirectToAction("CreateReservation", "Reservations");
-                    //    //"You cannot reserve this car with selected dates";
-                    //}
-                    
-                        if (ModelState.IsValid)
-                        {
-                            _context.Add(reservation);
-                            await _context.SaveChangesAsync();
-                            return RedirectToAction("Index", "MyReservations");
-                        }
-
-                        ViewData["ReasonForReservationId"] = new SelectList(_context.ReasonForReservations, "Id", "Reason");
-                    
-                
-            }            
-
+                if (!_reservationService.CheckReservation(reservation))
+                {
+                    return RedirectToAction("CreateReservation", new { reservation.CarId });
+                }
+                if (reservation.ReservationDate > reservation.DeliveryTime)
+                {
+                    return RedirectToAction("CreateReservation", new { reservation.CarId });
+                }
+                _context.Add(reservation);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "MyReservations");
+            }
+            ViewData["ReasonForReservationId"] = new SelectList(_context.ReasonForReservations, "Id", "Reason");
             return View(reservation);
-        }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> CreateReservation(int id, [Bind("UserId,CarId,ReservationDate,DeliveryTime,ReasonForReservationId,Id,CreatedBy,ModifiedBy,DeletedBy,CreatedDate,ModifiedDate,DeletedDate,IsDeleted")] Reservation reservation)
-        //{
-        //    if (id != reservation.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(reservation);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ReservationExists(reservation.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Plate", reservation.CarId);
-        //    ViewData["ReasonForReservationId"] = new SelectList(_context.ReasonForReservations, "Id", "Reason", reservation.ReasonForReservationId);
-        //    return View(reservation);
-        //}
+        }        
     }
 }
-
-
-//if (ModelState.IsValid)
-//{
-//    _context.Add(reservation);
-//    await _context.SaveChangesAsync();
-//    return RedirectToAction(nameof(Index));
-//}
-//ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Plate", reservation.CarId);
-//ViewData["ReasonForReservationId"] = new SelectList(_context.ReasonForReservations, "Id", "Reason", reservation.ReasonForReservationId);
-//return View(reservation);

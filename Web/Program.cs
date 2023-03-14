@@ -1,5 +1,7 @@
 using AktifVehiclePlanningSystem.Core;
 using AktifVehiclePlanningSystem.Repositories;
+using Business.Abstract;
+using Business.Concrete;
 using Business.Extensions;
 using Core.Constants;
 using DataAccess.Context;
@@ -101,4 +103,9 @@ void AddScoped()
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IRoleRepository, RoleRepository>();
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+    builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddScoped<IModelService, ModelService>();
+    builder.Services.AddScoped<IMaintenanceService, MaintenanceService>();
+    builder.Services.AddScoped<IReservationService, ReservationManager>();
+    builder.Services.AddScoped<IReasonService, ReasonManager>();
 }

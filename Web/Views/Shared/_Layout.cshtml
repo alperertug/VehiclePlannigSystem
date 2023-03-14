@@ -1,9 +1,12 @@
-﻿@using DataAccess.Identity.Data
+﻿@using Business.Abstract;
+@using DataAccess.Identity.Data
 @using Microsoft.AspNetCore.Identity
+@using System.Security.Claims;
 
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IReservationService _reservationService
 
 <!DOCTYPE html>
 <html class="loading dark-layout" lang="en" data-layout="dark-layout" data-textdirection="ltr">
@@ -62,6 +65,7 @@
                     <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-email.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Email"><i class="ficon" data-feather="mail"></i></a></li>
                     <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-chat.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"><i class="ficon" data-feather="message-square"></i></a></li>
                     <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-calendar.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Calendar"><i class="ficon" data-feather="calendar"></i></a></li>
+                    
                 </ul>
                 <ul class="nav navbar-nav">
                     <li class="nav-item d-none d-lg-block">
@@ -76,8 +80,13 @@
             </div>
             <ul class="nav navbar-nav align-items-center ms-auto">
                 <li class="nav-item dropdown dropdown-language">
-                    <a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-flag"><a class="dropdown-item" href="#" data-language="en"><i class="flag-icon flag-icon-us"></i> English</a><a class="dropdown-item" href="#" data-language="fr"><i class="flag-icon flag-icon-fr"></i> French</a><a class="dropdown-item" href="#" data-language="de"><i class="flag-icon flag-icon-de"></i> German</a><a class="dropdown-item" href="#" data-language="pt"><i class="flag-icon flag-icon-pt"></i> Portuguese</a></div>
+                    <a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true" 
+                    aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-flag"><a class="dropdown-item" href="#" 
+                        data-language="en"><i class="flag-icon flag-icon-us"></i> English</a><a class="dropdown-item" href="#" 
+                        data-language="fr"><i class="flag-icon flag-icon-fr"></i> French</a><a class="dropdown-item" href="#" 
+                        data-language="de"><i class="flag-icon flag-icon-de"></i> German</a><a class="dropdown-item" href="#" 
+                        data-language="pt"><i class="flag-icon flag-icon-pt"></i> Portuguese</a></div>
                 </li>
                 <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon" data-feather="sun"></i></a></li>
                 @*<li class="nav-item nav-search">
@@ -180,15 +189,20 @@
 
                 @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
                 {
-                    <li class=" nav-item">
-                        <a class="d-flex align-items-center" href="#"><i data-feather="box"></i><span class="menu-title text-truncate" data-i18n="Management">Management</span></a>
+                    @*<li class=" nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="layers"></i><span class="menu-title text-truncate" data-i18n="Management">Management</span></a>
                         <ul class="menu-content">
-
+                            <!--Buraya alt menu seviyeleri konabilir-->
+                        </ul>
+                    </li>*@
+                    <li>
+                        <a class="d-flex align-items-center" href="#"><i data-feather="truck"></i><span class="menu-item text-truncate" data-i18n="Vehicles">Vehicles</span></a>
+                        <ul class="menu-content">
                             <li class="nav-item">
                                 <a class="d-flex align-items-center" asp-controller="Cars" asp-action="Index"><i data-feather="truck"></i><span class="menu-item text-truncate" data-i18n="Vehicles">Vehicles</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="d-flex align-items-center" asp-controller="Models" asp-action="Index"><i data-feather="globe"></i><span class="menu-item text-truncate" data-i18n="Models">Models</span></a>
+                                <a class="d-flex align-items-center" asp-controller="Models" asp-action="Index"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Models">Models</span></a>
                             </li>
                             <li class="nav-item">
                                 <a class="d-flex align-items-center" asp-controller="Colors" asp-action="Index"><i data-feather="droplet"></i><span class="menu-item text-truncate" data-i18n="Colors">Colors</span></a>
@@ -196,28 +210,43 @@
                             <li class="nav-item">
                                 <a class="d-flex align-items-center" asp-controller="Maintenances" asp-action="Index"><i data-feather="tool"></i><span class="menu-item text-truncate" data-i18n="Maintenances">Maintenances</span></a>
                             </li>
-                            <li class="nav-item">
-                                <a class="d-flex align-items-center" asp-controller="ReasonForReservations" asp-action="Index"><i data-feather="paperclip"></i><span class="menu-item text-truncate" data-i18n="Reservation Reasons">Reservation Reasons</span></a>
-                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="d-flex align-items-center" href="#"><i data-feather="book-open"></i><span class="menu-item text-truncate" data-i18n="Reservations">Reservations</span></a>
+                        <ul class="menu-content">
                             <li class="nav-item">
                                 <a class="d-flex align-items-center" asp-controller="Reservations" asp-action="Index"><i data-feather="book-open"></i><span class="menu-item text-truncate" data-i18n="Reservations">Reservations</span></a>
                             </li>
-
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" asp-controller="ReasonForReservations" asp-action="Index"><i data-feather="paperclip"></i><span class="menu-item text-truncate" data-i18n="Reasons">Reasons</span></a>
+                            </li>
                         </ul>
                     </li>
-                }
-
                 @if (User.IsInRole("Administrator"))
                 {
-                    <li class="nav-item">
-                        <a class="d-flex align-items-center" asp-controller="User" asp-action="Index"><i data-feather="shield"></i><span class="menu-item text-truncate" data-i18n="User Roles">User Roles</span></a>
+                    <li>
+                        <a class="d-flex align-items-center" href="#"><i data-feather="users"></i><span class="menu-item text-truncate" data-i18n="Users">Users</span></a>
+                        <ul class="menu-content">
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" asp-controller="User" asp-action="Index"><i data-feather="shield"></i><span class="menu-item text-truncate" data-i18n="User Roles">User Roles</span></a>
+                            </li>
+                        </ul>
                     </li>
+                }                
                 }
-
                 @if (User.IsInRole("User"))
-                {
+                {                    
                     <li class="nav-item">
-                        <a class="d-flex align-items-center" asp-controller="MyReservations" asp-action="Index"><i data-feather="calendar"></i><span class="menu-item text-truncate" data-i18n="My Reservations">My Reservations</span></a>
+                        <a class="d-flex align-items-center" asp-controller="MyReservations" asp-action="Index"><i data-feather="calendar"></i><span class="menu-item text-truncate" data-i18n="My Reservations">My Reservations (@_reservationService.GetAllByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)).Count)</span></a>
+                    </li>
+                    <li>
+                        <a class="d-flex align-items-center" href="#"><i data-feather="settings"></i><span class="menu-item text-truncate" data-i18n="Settings">Settings</span></a>
+                        <ul class="menu-content">
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" asp-area="Identity" asp-page="/Account/Manage/Index"><i data-feather="user-check"></i><span class="menu-item text-truncate" data-i18n="Account">Account</span></a>
+                            </li>
+                        </ul>
                     </li>
                 }
 

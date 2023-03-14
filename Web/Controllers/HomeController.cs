@@ -1,7 +1,11 @@
 ﻿using AktifVehiclePlanningSystem.Models;
 using Business.Abstract;
+using DevExpress.DataAccess.Native.Web;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
+using static DevExpress.Xpo.Helpers.AssociatedCollectionCriteriaHelper;
 
 namespace AktifVehiclePlanningSystem.Controllers
 {
@@ -33,5 +37,6 @@ namespace AktifVehiclePlanningSystem.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        
     }
 }

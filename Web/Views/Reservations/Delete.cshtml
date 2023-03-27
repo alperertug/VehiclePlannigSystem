@@ -5,7 +5,25 @@
 
 @{
     ViewData["Title"] = "Delete";
-    var user = _userManager.GetAllUsers().FirstOrDefault(x => x.Id == Model.UserId).UserName;
+    var user = "";
+    var usrTemp = "";
+    var users = _userManager.GetAllUsers();
+    foreach (var usr in users)
+    {
+        if (usr.Id == Model.UserId)
+        {
+            usrTemp = Model.UserId;
+        }
+    }
+    if (usrTemp != "")
+    {
+        user = _userManager.GetAllUsers().FirstOrDefault(x => x.Id == usrTemp).UserName;
+    }
+    else
+    {
+        user = "Removed User";
+    }
+
 }
 
 <h1 class="center">Delete</h1>
